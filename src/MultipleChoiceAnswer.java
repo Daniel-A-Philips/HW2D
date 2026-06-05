@@ -53,10 +53,16 @@ public class MultipleChoiceAnswer extends Answer {
                 String resp = input.getString(
                         "Enter choice #" + (i + 1) + " (A-" + (char) ('A' + choices.size() - 1) + "): ")
                         .trim().toUpperCase();
-                if (resp.length() != 1) { System.out.println("Please enter a single letter."); continue; }
+                if (resp.length() != 1) {
+                    System.out.println("Please enter a single letter.");
+                    continue; }
                 int index = resp.charAt(0) - 'A';
-                if (index < 0 || index >= choices.size()) { System.out.println("That choice is out of range."); continue; }
-                if (updated.contains(choices.get(index))) { System.out.println("Already selected. Pick another."); continue; }
+                if (index < 0 || index >= choices.size()) {
+                    System.out.println("That choice is out of range.");
+                    continue; }
+                if (updated.contains(choices.get(index))) {
+                    System.out.println("Already selected. Pick another.");
+                    continue; }
                 updated.add(choices.get(index));
                 break;
             }
