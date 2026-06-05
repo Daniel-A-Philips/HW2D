@@ -51,24 +51,56 @@ public class MatchingAnswer extends Answer {
     @Override
     public void modify(InputHelper input) {
         Map<String, String> updated = new LinkedHashMap<>();
+        int leftIndex, rightIndex;
         for (int i = 0; i < leftColumn.size(); i++) {
             char letter = (char) ('A' + i);
             while (true) {
                 String line = input.getString("Match for " + letter + " (e.g. " + letter + " 1): ").trim();
                 String[] parts = line.split("\\s+");
-                if (parts.length < 2) { System.out.println("Please enter a letter and a number."); continue; }
-                if (parts[0].length() != 1) { System.out.println("First token should be a single letter."); continue; }
-                int li = parts[0].toUpperCase().charAt(0) - 'A';
-                if (li < 0 || li >= leftColumn.size()) { System.out.println("Letter out of range."); continue; }
-                int ri;
-                try { ri = Integer.parseInt(parts[1]) - 1; }
-                catch (NumberFormatException e) { System.out.println("Second token should be a number."); continue; }
-                if (ri < 0 || ri >= rightColumn.size()) { System.out.println("Number out of range."); continue; }
-                updated.put(leftColumn.get(li), rightColumn.get(ri));
+
+                if(!checkLength(parts)) continue;
+
+                leftIndex = parts[0].toUpperCase().charAt(0) - 'A';
+                rightIndex = Integer.parseInt(parts[1]) - 1;
+
+                if(!checkIndexes(parts, leftIndex, rightIndex)) continue;
+
+                updated.put(leftColumn.get(rightIndex), rightColumn.get(rightIndex));
                 break;
             }
         }
         this.pairs = updated;
+    }
+
+    private boolean checkLength(String[] parts) {
+        if (parts.length < 2) {
+            System.out.println("Please enter a letter and a number.");
+            return false;
+        }
+        if (parts[0].length() != 1) {
+            System.out.println("First token should be a single letter.");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkIndexes(String[] parts, int leftIndex, int rightIndex) {
+        if (leftIndex < 0 || leftIndex >= leftColumn.size()) {
+            System.out.println("Letter out of range.");
+            return false;
+        }
+
+        try { rightIndex = Integer.parseInt(parts[1]) - 1; }
+        catch (NumberFormatException e) {
+            System.out.println("Second token should be a number.");
+            return false;
+        }
+
+        if (rightIndex < 0 || rightIndex >= rightColumn.size()) {
+            System.out.println("Number out of range.");
+            return false;
+        }
+        return true;
     }
 
     public Map<String, String> getPairs() {

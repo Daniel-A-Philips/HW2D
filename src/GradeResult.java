@@ -1,3 +1,4 @@
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -5,6 +6,7 @@ import java.util.List;
 // The result of grading a Test. Every test is worth 100 points, divided equally
 // among all questions. Essay questions are removed from the gradable points.
 public class GradeResult implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final String testName;
@@ -50,6 +52,7 @@ public class GradeResult implements Serializable {
     }
 
     // Choose "a"/"an" based on how the number is read aloud (e.g. "an 80", "a 90").
+    // Because why not
     private String article(double d) {
         String s = fmt(d);
         char c = s.charAt(0);

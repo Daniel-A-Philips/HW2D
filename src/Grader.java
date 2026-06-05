@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-// Computes a numeric grade for a Test given a Response. Essay questions are not
-// auto-gradable and are excluded from the gradable points.
+// Computes a numeric grade for a Test given a Response.
+// Essay questions are not auto-gradable and are excluded from the gradable points.
 public class Grader {
 
     public GradeResult grade(Test t, Response r) {
@@ -40,28 +40,40 @@ public class Grader {
         if (correct == null || given == null) return false;
 
         // TrueFalse and MultipleChoice (T/F is a MultipleChoiceAnswer): compare selected choices as a set.
-        if (correct instanceof MultipleChoiceAnswer && given instanceof MultipleChoiceAnswer) {
-            List<String> c = new ArrayList<>(((MultipleChoiceAnswer) correct).getSelectedChoices());
-            List<String> g = new ArrayList<>(((MultipleChoiceAnswer) given).getSelectedChoices());
-            Collections.sort(c); Collections.sort(g);
-            return c.equals(g);
-        }
-        // Matching: the chosen pairings must match exactly.
-        if (correct instanceof MatchingAnswer && given instanceof MatchingAnswer) {
-            return ((MatchingAnswer) correct).getPairs().equals(((MatchingAnswer) given).getPairs());
-        }
-        // Date: compare the set of dates.
-        if (correct instanceof DateAnswer && given instanceof DateAnswer) {
-            List<String> c = new ArrayList<>(((DateAnswer) correct).getDates());
-            List<String> g = new ArrayList<>(((DateAnswer) given).getDates());
-            Collections.sort(c); Collections.sort(g);
-            return c.equals(g);
-        }
-        // Short answer (essay subtype): compare normalized text responses.
-        if (correct instanceof EssayAnswer && given instanceof EssayAnswer) {
-            List<String> c = normalizeList(((EssayAnswer) correct).getResponses());
-            List<String> g = normalizeList(((EssayAnswer) given).getResponses());
-            return c.equals(g);
+        switch (correct) {
+            case MultipleChoiceAnswer multipleChoiceAnswer when given instanceof MultipleChoiceAnswer -> {
+                List<String> c = new ArrayList<>(multipleChoiceAnswer.getSelectedChoices());
+                List<String> g = new ArrayList<>(((MultipleChoiceAnswer) given).getSelectedChoices());
+                Collections.sort(c);
+                Collections.sort(g);
+                return c.equals(g);
+            }
+
+            // Matching: the chosen pairings must match exactly.
+            case MatchingAnswer matchingAnswer when given instanceof MatchingAnswer -> {
+                return matchingAnswer.getPairs().equals(((MatchingAnswer) given).getPairs());
+            }
+
+            // Date: compare the set of dates.
+            case DateAnswer dateAnswer when given instanceof DateAnswer -> {
+                List<String> c = new ArrayList<>(dateAnswer.getDates());
+                List<String> g = new ArrayList<>(((DateAnswer) given).getDates());
+
+                // Sort to make sure in the same order
+                Collections.sort(c);
+                Collections.sort(g);
+
+                return c.equals(g);
+            }
+
+            // Short answer (essay subtype): compare normalized text responses.
+            case EssayAnswer essayAnswer when given instanceof EssayAnswer -> {
+                List<String> c = normalizeList(essayAnswer.getResponses());
+                List<String> g = normalizeList(((EssayAnswer) given).getResponses());
+                return c.equals(g);
+            }
+            default -> {
+            }
         }
         return normalize(correct.getAnswerSummary()).equals(normalize(given.getAnswerSummary()));
     }

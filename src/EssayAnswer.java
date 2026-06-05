@@ -1,9 +1,11 @@
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
 // Answer for an Essay question. Each entry is one paragraph/response.
 // ShortAnswerAnswer subclasses this.
 public class EssayAnswer extends Answer {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     protected List<String> responses;

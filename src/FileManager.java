@@ -26,7 +26,7 @@ public class FileManager {
 
     private void ensureDir(String dir) {
         File f = new File(dir);
-        if (!f.exists()) f.mkdirs(); // Used for checking if 
+        if (!f.exists()) f.mkdirs(); // Used for checking if the file actually exists
     }
 
     // Surveys
@@ -65,7 +65,7 @@ public class FileManager {
         throw new IOException("File does not contain a Response object.");
     }
 
-    // Listings
+    // Lists
     public List<String> listSurveys() { return listFiles(SURVEY_DIR); }
     public List<String> listTests() { return listFiles(TEST_DIR); }
     public List<String> listResponses() { return listFiles(RESPONSE_DIR); }
@@ -103,6 +103,7 @@ public class FileManager {
         return safe;
     }
 
+    // Remove unwanted file name additions (not really necessary but good practice)
     private String sanitize(String name) {
         if (name == null || name.trim().isEmpty()) return "untitled";
         return name.trim().replace(" ", "_");

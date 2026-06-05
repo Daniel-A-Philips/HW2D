@@ -62,9 +62,8 @@ public class InputHelper {
         }
     }
 
-    // Validate that a string is a real calendar date in YYYY-MM-DD form.
+    //Validate that a string is a real calendar date in YYYY-MM-DD form.
     public static boolean isValidDate(String date) {
-        if (date == null) return false;
         try {
             LocalDate.parse(date);
             return true;
@@ -73,7 +72,7 @@ public class InputHelper {
         }
     }
 
-    // Close the underlying scanner.
+    // Close scanner.
     public void close() {
         scanner.close();
     }
