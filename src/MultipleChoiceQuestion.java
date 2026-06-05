@@ -1,11 +1,11 @@
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
 // A Multiple Choice question with a configurable number of choices and a
 // configurable number of expected responses (single or multiple).
-// TrueFalseQuestion is a subclass of this class (a T/F is just a MC with
-// two fixed choices and a single response).
 public class MultipleChoiceQuestion extends Question {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final List<String> choices;

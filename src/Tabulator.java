@@ -105,7 +105,7 @@ public class Tabulator {
             if (a instanceof EssayAnswer)
                 for (String r : ((EssayAnswer) a).getResponses())
                     sb.append(r).append("\n");
-        return sb.length() == 0 ? "(no essays)" : sb.toString().trim();
+        return sb.isEmpty() ? "(no essays)" : sb.toString().trim();
     }
 
     // Matching: count each distinct permutation submitted, then show count + permutation.
@@ -125,8 +125,8 @@ public class Tabulator {
                 StringBuilder perm = new StringBuilder();
                 for (int i = 0; i < left.size(); i++) {
                     String r = pairs.get(left.get(i));
-                    int rIdx = (r == null) ? -1 : right.indexOf(r);
-                    perm.append((char) ('A' + i)).append(" ").append(rIdx >= 0 ? (rIdx + 1) : "?");
+                    int rightIndex = (r == null) ? -1 : right.indexOf(r);
+                    perm.append((char) ('A' + i)).append(" ").append(rightIndex >= 0 ? (rightIndex + 1) : "?");
                     if (i < left.size() - 1) perm.append("\n");
                 }
                 counts.merge(perm.toString(), 1, Integer::sum);

@@ -1,8 +1,10 @@
+import java.io.Serial;
 import java.util.List;
 
 // A Test is a Survey that also has an AnswerKey holding the correct answer for
 // each question (essay questions have no correct answer and are not graded).
 public class Test extends Survey {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final AnswerKey answerKey;
@@ -34,8 +36,7 @@ public class Test extends Survey {
     }
 
     // Save/Load a Test through the tests directory (overriding Survey, which
-    // would otherwise file it under surveys). All serialization lives in the
-    // FileManager.
+    // would otherwise file it under surveys). All serialization lives in the FileManager.
     @Override
     public void save(String fileName) {
         try {

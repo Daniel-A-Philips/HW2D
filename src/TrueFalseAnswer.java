@@ -1,9 +1,11 @@
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.Collections;
 
 // Stores a single boolean answer for a True/False question.
 // This is a MultipleChoiceAnswer whose single selected choice is either "True" or "False".
 public class TrueFalseAnswer extends MultipleChoiceAnswer {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public TrueFalseAnswer(String questionPrompt, boolean value) {

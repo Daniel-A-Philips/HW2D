@@ -1,9 +1,11 @@
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 // A Response is a set of Answers produced by taking a Survey or Test.
 public class Response implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final String surveyName;
@@ -28,8 +30,8 @@ public class Response implements Serializable {
         }
     }
 
-    // Save this response via the FileManager (delegates so all serialization
-    // lives in one place). Satisfies the Response save/load design requirement.
+    // Save this response via the FileManager
+    // delegates
     public void save(String fileName) {
         try {
             new FileManager().saveResponse(this, fileName);

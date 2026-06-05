@@ -1,9 +1,10 @@
+import java.io.Serial;
 import java.util.Arrays;
 
 // A True/False question. By definition it is a Multiple Choice question with
-// two fixed choices (True/False) and a single response, so it is implemented
-// as a subclass of MultipleChoiceQuestion.
+// two fixed choices (True/False) and a single response
 public class TrueFalseQuestion extends MultipleChoiceQuestion {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public TrueFalseQuestion(String prompt) {

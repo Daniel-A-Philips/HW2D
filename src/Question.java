@@ -1,11 +1,11 @@
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-// Abstract base class for all question types in a Survey or Test.
-// Each Question can aggregate the answers given to it (has-a Answer),
-// which is what the design rubric expects.
+// Abstract base class for all question types in a Survey or Test
 public abstract class Question implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     protected String prompt;
@@ -15,7 +15,7 @@ public abstract class Question implements Serializable {
 
     public Question(String prompt, int numResponses) {
         this.prompt = prompt;
-        this.numResponses = (numResponses < 1) ? 1 : numResponses;
+        this.numResponses = Math.max(numResponses, 1);
         this.answers = new ArrayList<>();
     }
 
@@ -50,6 +50,6 @@ public abstract class Question implements Serializable {
     }
 
     public void setNumResponses(int numResponses) {
-        this.numResponses = (numResponses < 1) ? 1 : numResponses;
+        this.numResponses = Math.max(numResponses, 1);
     }
 }

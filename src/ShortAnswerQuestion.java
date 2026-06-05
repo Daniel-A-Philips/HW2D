@@ -1,9 +1,11 @@
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
 // A Short Answer question. It is an Essay question that additionally enforces
 // a character limit, so it is implemented as a subclass of EssayQuestion.
 public class ShortAnswerQuestion extends EssayQuestion {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private int charLimit;

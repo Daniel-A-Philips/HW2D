@@ -1,9 +1,11 @@
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
 // A question that asks for a valid calendar date in YYYY-MM-DD format.
 // Supports either single or multiple responses.
 public class ValidDateQuestion extends Question {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public ValidDateQuestion(String prompt, int numResponses) {
