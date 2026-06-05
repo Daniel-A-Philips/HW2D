@@ -17,7 +17,10 @@ public class Test extends Survey {
     public void display(boolean showAnswers) {
         System.out.println("=== Test: " + getName() + " ===");
         List<Question> qs = getQuestions();
-        if (qs.isEmpty()) { System.out.println("(This test has no questions yet.)"); return; }
+        if (qs.isEmpty()) {
+            System.out.println("(This test has no questions yet.)");
+            return;
+        }
         for (int i = 0; i < qs.size(); i++) {
             System.out.println((i + 1) + ") " + qs.get(i).getPrompt());
             qs.get(i).display();
@@ -51,8 +54,8 @@ public class Test extends Survey {
         }
     }
 
-    public void setCorrectAnswer(int idx, Answer a) {
-        answerKey.setAnswer(idx, a);
+    public void setCorrectAnswer(int index, Answer a) {
+        answerKey.setAnswer(index, a);
     }
 
     public AnswerKey getAnswerKey() {

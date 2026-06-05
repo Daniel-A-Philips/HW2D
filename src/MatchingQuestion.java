@@ -47,10 +47,10 @@ public class MatchingQuestion extends Question {
                 String marker = lettered ? String.valueOf((char) ('A' + i)) : String.valueOf(i + 1);
                 System.out.println("  " + marker + ") " + column.get(i));
             }
-            int idx = input.getInt("Which item to modify? (1-" + column.size() + ", 0 to finish): ", 0, column.size());
-            if (idx == 0) break;
+            int index = input.getInt("Which item to modify? (1-" + column.size() + ", 0 to finish): ", 0, column.size());
+            if (index == 0) break;
             String newVal = input.getString("Enter the new value: ");
-            column.set(idx - 1, newVal);
+            column.set(index - 1, newVal);
             System.out.println("Item updated.");
             if (!input.getBoolean("Modify another item in this column? (Y/N): ")) break;
         }

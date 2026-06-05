@@ -1,9 +1,11 @@
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
 // Answer class for a Multiple Choice question. Stores the choices that were
 // presented and the choice(s) the user selected. TrueFalseAnswer subclasses this.
 public class MultipleChoiceAnswer extends Answer {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     protected List<String> choices;
@@ -31,8 +33,8 @@ public class MultipleChoiceAnswer extends Answer {
     public String getAnswerSummary() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < selectedChoices.size(); i++) {
-            int idx = choices.indexOf(selectedChoices.get(i));
-            if (idx >= 0) sb.append((char) ('A' + idx)).append(") ").append(choices.get(idx));
+            int index = choices.indexOf(selectedChoices.get(i));
+            if (index >= 0) sb.append((char) ('A' + index)).append(") ").append(choices.get(index));
             else sb.append("?");
             if (i < selectedChoices.size() - 1) sb.append(", ");
         }
@@ -52,10 +54,10 @@ public class MultipleChoiceAnswer extends Answer {
                         "Enter choice #" + (i + 1) + " (A-" + (char) ('A' + choices.size() - 1) + "): ")
                         .trim().toUpperCase();
                 if (resp.length() != 1) { System.out.println("Please enter a single letter."); continue; }
-                int idx = resp.charAt(0) - 'A';
-                if (idx < 0 || idx >= choices.size()) { System.out.println("That choice is out of range."); continue; }
-                if (updated.contains(choices.get(idx))) { System.out.println("Already selected. Pick another."); continue; }
-                updated.add(choices.get(idx));
+                int index = resp.charAt(0) - 'A';
+                if (index < 0 || index >= choices.size()) { System.out.println("That choice is out of range."); continue; }
+                if (updated.contains(choices.get(index))) { System.out.println("Already selected. Pick another."); continue; }
+                updated.add(choices.get(index));
                 break;
             }
         }

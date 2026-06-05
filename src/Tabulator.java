@@ -51,8 +51,8 @@ public class Tabulator {
         for (Answer a : ans) {
             if (a instanceof MultipleChoiceAnswer) {
                 for (String sel : ((MultipleChoiceAnswer) a).getSelectedChoices()) {
-                    int idx = choices.indexOf(sel);
-                    if (idx >= 0) counts[idx]++;
+                    int i = choices.indexOf(sel);
+                    if (i >= 0) counts[i]++;
                 }
             }
         }

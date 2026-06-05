@@ -147,15 +147,15 @@ public class Menu {
     // essay questions (an EssayQuestion that is not a ShortAnswerQuestion) are
     // not auto-gradable, so no key is stored for them.
     private void captureCorrectAnswer(Test test, Question q) {
-        int idx = test.getQuestions().size() - 1;
+        int index = test.getQuestions().size() - 1;
         if (q instanceof EssayQuestion && !(q instanceof ShortAnswerQuestion)) {
             System.out.println("(Essay questions are not auto-graded, so no correct answer is stored.)");
-            test.setCorrectAnswer(idx, null);
+            test.setCorrectAnswer(index, null);
             return;
         }
         System.out.println("Now enter the correct answer for this question:");
         Answer correct = q.take(input);
-        test.setCorrectAnswer(idx, correct);
+        test.setCorrectAnswer(index, correct);
     }
 
     // ----------------------------------------------------------------- display
@@ -246,17 +246,17 @@ public class Menu {
         for (int i = 0; i < qs.size(); i++) {
             System.out.println((i + 1) + ") " + qs.get(i).getPrompt());
         }
-        int idx = input.getInt("Which question do you want to modify? (1-" + qs.size() + "): ", 1, qs.size()) - 1;
-        target.modifyQuestion(idx, input);
+        int index = input.getInt("Which question do you want to modify? (1-" + qs.size() + "): ", 1, qs.size()) - 1;
+        target.modifyQuestion(index, input);
         System.out.println("Question updated.");
 
         if (isTest) {
             Test test = (Test) target;
-            Question q = qs.get(idx);
+            Question q = qs.get(index);
             boolean pureEssay = (q instanceof EssayQuestion) && !(q instanceof ShortAnswerQuestion);
             if (!pureEssay && input.getBoolean("Do you also want to update the correct answer for this question? (Y/N): ")) {
                 System.out.println("Enter the new correct answer:");
-                test.setCorrectAnswer(idx, q.take(input));
+                test.setCorrectAnswer(index, q.take(input));
                 System.out.println("Correct answer updated.");
             }
         }

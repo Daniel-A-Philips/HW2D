@@ -40,12 +40,12 @@ public class MultipleChoiceQuestion extends Question {
                 for (int i = 0; i < choices.size(); i++) {
                     System.out.println("  " + (char) ('A' + i) + ") " + choices.get(i));
                 }
-                int idx = input.getInt(
+                int index = input.getInt(
                         "Which choice do you want to modify? (1-" + choices.size() + ", 0 to finish): ",
                         0, choices.size());
-                if (idx == 0) break;
-                String newVal = input.getString("Enter the new value for choice " + (char) ('A' + idx - 1) + ": ");
-                choices.set(idx - 1, newVal);
+                if (index == 0) break;
+                String newVal = input.getString("Enter the new value for choice " + (char) ('A' + index - 1) + ": ");
+                choices.set(index - 1, newVal);
                 System.out.println("Choice updated.");
                 if (!input.getBoolean("Modify another choice? (Y/N): ")) break;
             }
@@ -68,13 +68,13 @@ public class MultipleChoiceQuestion extends Question {
                         "Enter choice #" + (i + 1) + " (A-" + (char) ('A' + choices.size() - 1) + "): ")
                         .trim().toUpperCase();
                 if (response.length() != 1) { System.out.println("Please enter a single letter."); continue; }
-                int idx = response.charAt(0) - 'A';
-                if (idx < 0 || idx >= choices.size()) { System.out.println("That choice is out of range."); continue; }
-                if (selected.contains(choices.get(idx))) {
+                int index = response.charAt(0) - 'A';
+                if (index < 0 || index >= choices.size()) { System.out.println("That choice is out of range."); continue; }
+                if (selected.contains(choices.get(index))) {
                     System.out.println("You already selected that choice. Pick a different one.");
                     continue;
                 }
-                selected.add(choices.get(idx));
+                selected.add(choices.get(index));
                 break;
             }
         }
@@ -86,7 +86,7 @@ public class MultipleChoiceQuestion extends Question {
     }
 
     // Replace a single choice (matches setChoice in the UML).
-    public void setChoice(int idx, String choice) {
-        if (idx >= 0 && idx < choices.size()) choices.set(idx, choice);
+    public void setChoice(int index, String choice) {
+        if (index >= 0 && index < choices.size()) choices.set(index, choice);
     }
 }

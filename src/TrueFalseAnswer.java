@@ -1,9 +1,8 @@
 import java.util.Arrays;
 import java.util.Collections;
 
-// Stores a single boolean answer for a True/False question. Because a T/F
-// question is a Multiple Choice question, this is a MultipleChoiceAnswer whose
-// single selected choice is either "True" or "False".
+// Stores a single boolean answer for a True/False question.
+// This is a MultipleChoiceAnswer whose single selected choice is either "True" or "False".
 public class TrueFalseAnswer extends MultipleChoiceAnswer {
     private static final long serialVersionUID = 1L;
 
@@ -13,7 +12,7 @@ public class TrueFalseAnswer extends MultipleChoiceAnswer {
     }
 
     public boolean getValue() {
-        return !selectedChoices.isEmpty() && selectedChoices.get(0).equals("True");
+        return !selectedChoices.isEmpty() && selectedChoices.getFirst().equals("True");
     }
 
     @Override
