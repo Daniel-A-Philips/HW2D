@@ -49,6 +49,7 @@ public class MatchingQuestion extends Question {
             }
             int index = input.getInt("Which item to modify? (1-" + column.size() + ", 0 to finish): ", 0, column.size());
             if (index == 0) break;
+
             String newVal = input.getString("Enter the new value: ");
             column.set(index - 1, newVal);
             System.out.println("Item updated.");
@@ -66,21 +67,51 @@ public class MatchingQuestion extends Question {
             while (true) {
                 String line = input.getString("Match for " + letter + " (e.g. " + letter + " 1): ").trim();
                 String[] parts = line.split("\\s+");
-                if (parts.length < 2) { System.out.println("Please enter a letter and a number, separated by a space."); continue; }
-                String letterPart = parts[0].toUpperCase();
-                String numberPart = parts[1];
-                if (letterPart.length() != 1) { System.out.println("First token should be a single letter."); continue; }
-                int leftIndex = letterPart.charAt(0) - 'A';
-                if (leftIndex < 0 || leftIndex >= leftColumn.size()) { System.out.println("Letter out of range."); continue; }
-                int rightIndex;
-                try { rightIndex = Integer.parseInt(numberPart) - 1; }
-                catch (NumberFormatException e) { System.out.println("Second token should be a number."); continue; }
-                if (rightIndex < 0 || rightIndex >= rightColumn.size()) { System.out.println("Number out of range."); continue; }
+                if (parts.length < 2) {
+                    System.out.println("Please enter a letter and a number, separated by a space.");
+                    continue;
+                }
+
+                int leftIndex = parseLetterIndex(parts[0], leftColumn.size());
+                if (leftIndex < 0) continue;
+
+                int rightIndex = parseNumberIndex(parts[1], rightColumn.size());
+                if (rightIndex < 0) continue;
+
                 pairs.put(leftColumn.get(leftIndex), rightColumn.get(rightIndex));
                 break;
             }
         }
         return new MatchingAnswer(prompt, leftColumn, rightColumn, pairs);
+    }
+
+    private static int parseLetterIndex(String token, int size) {
+        String letter = token.toUpperCase();
+        if (letter.length() != 1) {
+            System.out.println("First token should be a single letter.");
+            return -1;
+        }
+        int index = letter.charAt(0) - 'A';
+        if (index < 0 || index >= size) {
+            System.out.println("Letter out of range.");
+            return -1;
+        }
+        return index;
+    }
+
+    private static int parseNumberIndex(String token, int size) {
+        int index;
+        try {
+            index = Integer.parseInt(token) - 1;
+        } catch (NumberFormatException e) {
+            System.out.println("Second token should be a number.");
+            return -1;
+        }
+        if (index < 0 || index >= size) {
+            System.out.println("Number out of range.");
+            return -1;
+        }
+        return index;
     }
 
     public List<String> getLeftColumn() {

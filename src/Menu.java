@@ -17,7 +17,7 @@ public class Menu {
         this.input = new InputHelper();
     }
 
-    // ----------------------------------------------------------------- run loop
+    // run loop
     public void run() {
         System.out.println("Welcome to the Survey & Test System");
         boolean running = true;
@@ -38,7 +38,7 @@ public class Menu {
         input.close();
     }
 
-    // ----------------------------------------------------------------- survey menu
+    // survey menu
     private void surveyMenu() {
         boolean back = false;
         while (!back) {
@@ -66,7 +66,7 @@ public class Menu {
         }
     }
 
-    // ----------------------------------------------------------------- test menu
+    // test menu
     private void testMenu() {
         boolean back = false;
         while (!back) {
@@ -98,9 +98,9 @@ public class Menu {
         }
     }
 
-    // ----------------------------------------------------------------- create
+    // create
     private void handleCreate(boolean isTest) {
-        String name = input.getString("Enter a name for the new " + (isTest ? "test" : "survey") + ": ");
+        String name = input.getString("Enter a name for the new " + label(isTest) + ": ");
         Survey target;
         if (isTest) {
             Test t = new Test(name);
@@ -140,7 +140,7 @@ public class Menu {
                 System.out.println("Question added.");
             }
         }
-        System.out.println("Finished building " + (isTest ? "test" : "survey") + " \"" + name + "\".");
+        System.out.println("Finished building " + label(isTest) + " \"" + name + "\".");
     }
 
     // For a test, record the correct answer for the question just added. Pure
@@ -158,31 +158,17 @@ public class Menu {
         test.setCorrectAnswer(index, correct);
     }
 
-    // ----------------------------------------------------------------- display
+    // display
     private void handleDisplay(boolean isTest, boolean showAnswers) {
-        if (isTest) {
-            if (currentTest == null) {
-                System.out.println("You must have a test loaded first. Use Create or Load.");
-                return;
-            }
-            currentTest.display(showAnswers);
-        } else {
-            if (currentSurvey == null) {
-                System.out.println("You must have a survey loaded first. Use Create or Load.");
-                return;
-            }
-            currentSurvey.display();
-        }
+        Survey target = requireCurrent(isTest);
+        if (target == null) return;
+        if (isTest) ((Test) target).display(showAnswers);
+        else target.display();
     }
 
-    // ----------------------------------------------------------------- load
+    // load
     private void handleLoad(boolean isTest) {
-        List<String> files = isTest ? fileManager.listTests() : fileManager.listSurveys();
-        if (files.isEmpty()) {
-            System.out.println("There are no saved " + (isTest ? "tests" : "surveys") + " to load.");
-            return;
-        }
-        String chosen = pickFromList(files, "Select a " + (isTest ? "test" : "survey") + " to load:");
+        String chosen = chooseSaved(isTest, "load");
         if (chosen == null) return;
         if (isTest) {
             Test t = Test.loadTest(chosen);
@@ -193,34 +179,20 @@ public class Menu {
         }
     }
 
-    // ----------------------------------------------------------------- save
+    // save
     private void handleSave(boolean isTest) {
-        if (isTest) {
-            if (currentTest == null) {
-                System.out.println("You must have a test loaded first. Use Create or Load.");
-                return;
-            }
-            currentTest.save(currentTest.getName());
-            System.out.println("Saved test \"" + currentTest.getName() + "\".");
-        } else {
-            if (currentSurvey == null) {
-                System.out.println("You must have a survey loaded first. Use Create or Load.");
-                return;
-            }
-            currentSurvey.save(currentSurvey.getName());
-            System.out.println("Saved survey \"" + currentSurvey.getName() + "\".");
-        }
+        Survey target = requireCurrent(isTest);
+        if (target == null) return;
+        target.save(target.getName());
+        System.out.println("Saved " + label(isTest) + " \"" + target.getName() + "\".");
     }
 
-    // ----------------------------------------------------------------- take
+    // take
     private void handleTake(boolean isTest) {
-        Survey target = isTest ? currentTest : currentSurvey;
-        if (target == null) {
-            System.out.println("You must have a " + (isTest ? "test" : "survey") + " loaded first. Use Create or Load.");
-            return;
-        }
+        Survey target = requireCurrent(isTest);
+        if (target == null) return;
         if (target.getQuestions().isEmpty()) {
-            System.out.println("This " + (isTest ? "test" : "survey") + " has no questions yet.");
+            System.out.println("This " + label(isTest) + " has no questions yet.");
             return;
         }
         Response response = target.take(input);
@@ -230,16 +202,13 @@ public class Menu {
         System.out.println("Your response has been recorded and saved.");
     }
 
-    // ----------------------------------------------------------------- modify
+    // modify
     private void handleModify(boolean isTest) {
-        Survey target = isTest ? currentTest : currentSurvey;
-        if (target == null) {
-            System.out.println("You must have a " + (isTest ? "test" : "survey") + " loaded first. Use Create or Load.");
-            return;
-        }
+        Survey target = requireCurrent(isTest);
+        if (target == null) return;
         List<Question> qs = target.getQuestions();
         if (qs.isEmpty()) {
-            System.out.println("This " + (isTest ? "test" : "survey") + " has no questions to modify.");
+            System.out.println("This " + label(isTest) + " has no questions to modify.");
             return;
         }
         System.out.println("Questions:");
@@ -262,14 +231,9 @@ public class Menu {
         }
     }
 
-    // ----------------------------------------------------------------- tabulate
+    // tabulate
     private void handleTabulate(boolean isTest) {
-        List<String> files = isTest ? fileManager.listTests() : fileManager.listSurveys();
-        if (files.isEmpty()) {
-            System.out.println("There are no saved " + (isTest ? "tests" : "surveys") + " to tabulate.");
-            return;
-        }
-        String chosen = pickFromList(files, "Select a " + (isTest ? "test" : "survey") + " to tabulate:");
+        String chosen = chooseSaved(isTest, "tabulate");
         if (chosen == null) return;
 
         Tabulator tabulator = new Tabulator();
@@ -288,14 +252,9 @@ public class Menu {
         }
     }
 
-    // ----------------------------------------------------------------- grade
+    // grade
     private void handleGrade() {
-        List<String> tests = fileManager.listTests();
-        if (tests.isEmpty()) {
-            System.out.println("There are no saved tests to grade.");
-            return;
-        }
-        String chosenTest = pickFromList(tests, "Select a test to grade:");
+        String chosenTest = chooseSaved(true, "grade");
         if (chosenTest == null) return;
         Test test = Test.loadTest(chosenTest);
         if (test == null) return;
@@ -315,7 +274,31 @@ public class Menu {
         result.display();
     }
 
-    // ----------------------------------------------------------------- helpers
+    // helpers
+    private static String label(boolean isTest) {
+        return isTest ? "test" : "survey";
+    }
+
+    // Returns the loaded survey/test, or null (after printing the guard) if none.
+    private Survey requireCurrent(boolean isTest) {
+        Survey target = isTest ? currentTest : currentSurvey;
+        if (target == null) {
+            System.out.println("You must have a " + label(isTest) + " loaded first. Use Create or Load.");
+        }
+        return target;
+    }
+
+    // Lists saved files; prints a message and returns null if none exist,
+    // otherwise lets the user pick one (null also covers cancellation).
+    private String chooseSaved(boolean isTest, String action) {
+        List<String> files = isTest ? fileManager.listTests() : fileManager.listSurveys();
+        if (files.isEmpty()) {
+            System.out.println("There are no saved " + label(isTest) + "s to " + action + ".");
+            return null;
+        }
+        return pickFromList(files, "Select a " + label(isTest) + " to " + action + ":");
+    }
+
     // Load every saved Response whose survey/test name matches the given name.
     private List<Response> loadResponsesFor(String name) {
         List<Response> matches = new ArrayList<>();
@@ -348,7 +331,7 @@ public class Menu {
         return items.get(choice - 1);
     }
 
-    // ----------------------------------------------------------------- builders
+    // builders
     private Question buildTrueFalse() {
         String prompt = input.getString("Enter the True/False question prompt: ");
         return new TrueFalseQuestion(prompt);
