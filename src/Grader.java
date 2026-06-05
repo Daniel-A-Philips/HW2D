@@ -32,8 +32,7 @@ public class Grader {
     private boolean isGradable(Question q, Answer correct) {
         if (correct == null) return false;
         if (q instanceof ShortAnswerQuestion) return true;
-        if (q instanceof EssayQuestion) return false;
-        return true;
+        return !(q instanceof EssayQuestion);
     }
 
     // Compare two answers of the same type for correctness.

@@ -1,3 +1,4 @@
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -5,6 +6,7 @@ import java.util.List;
 // (e.g. multiple paragraphs). ShortAnswerQuestion is a subclass of this class
 // (a short answer is just an essay with a character limit).
 public class EssayQuestion extends Question {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public EssayQuestion(String prompt, int numResponses) {

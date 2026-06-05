@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 // Utility that builds a sample Test containing at least one of every supported
@@ -23,14 +24,14 @@ public class SampleTestBuilder {
                 1);
         test.addQuestion(mc);
         test.setCorrectAnswer(1, new MultipleChoiceAnswer(
-                mc.getPrompt(), mc.getChoices(), Arrays.asList("extends")));
+                mc.getPrompt(), mc.getChoices(), List.of("extends")));
 
         // 3) Short Answer
         ShortAnswerQuestion sa = new ShortAnswerQuestion(
                 "What method must be overridden to print an object meaningfully?", 40, 1);
         test.addQuestion(sa);
         test.setCorrectAnswer(2, new ShortAnswerAnswer(
-                sa.getPrompt(), Arrays.asList("toString")));
+                sa.getPrompt(), List.of("toString")));
 
         // 4) Essay (not auto-graded)
         EssayQuestion essay = new EssayQuestion(
@@ -43,7 +44,7 @@ public class SampleTestBuilder {
                 "On what date was the first version of Java publicly released?", 1);
         test.addQuestion(date);
         test.setCorrectAnswer(4, new DateAnswer(
-                date.getPrompt(), Arrays.asList("1996-01-23")));
+                date.getPrompt(), List.of("1996-01-23")));
 
         // 6) Matching
         MatchingQuestion match = new MatchingQuestion(
@@ -61,7 +62,7 @@ public class SampleTestBuilder {
         return test;
     }
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         Test test = build();
         test.save(test.getName());
         System.out.println("Sample test \"" + test.getName() + "\" created and saved.");

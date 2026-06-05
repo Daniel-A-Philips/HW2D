@@ -6,9 +6,9 @@ import java.util.List;
 public class Response implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String surveyName;
+    private final String surveyName;
     private String responderId;
-    private List<Answer> answers;
+    private final List<Answer> answers;
 
     public Response(String surveyName) {
         this.surveyName = surveyName;

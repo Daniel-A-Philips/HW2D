@@ -7,9 +7,9 @@ import java.util.List;
 public class Survey implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String name;
-    private List<Question> questions;
-    private List<Response> responses;
+    private final String name;
+    private final List<Question> questions;
+    private final List<Response> responses;
 
     public Survey(String name) {
         this.name = name;

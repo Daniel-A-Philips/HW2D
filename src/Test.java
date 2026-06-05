@@ -5,7 +5,7 @@ import java.util.List;
 public class Test extends Survey {
     private static final long serialVersionUID = 1L;
 
-    private AnswerKey answerKey;
+    private final AnswerKey answerKey;
 
     public Test(String name) {
         super(name);

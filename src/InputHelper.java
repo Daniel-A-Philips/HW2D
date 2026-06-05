@@ -4,7 +4,7 @@ import java.util.Scanner;
 // Centralized input helper that wraps a Scanner. All user input goes through
 // this class so that improper input is handled gracefully and consistently.
 public class InputHelper {
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public InputHelper() {
         this.scanner = new Scanner(System.in);

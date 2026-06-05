@@ -39,7 +39,7 @@ public class SampleSurveyBuilder {
         return survey;
     }
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         Survey survey = build();
         survey.save(survey.getName());
         System.out.println("Sample survey \"" + survey.getName() + "\" created and saved.");

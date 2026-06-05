@@ -26,10 +26,10 @@ public class FileManager {
 
     private void ensureDir(String dir) {
         File f = new File(dir);
-        if (!f.exists()) f.mkdirs();
+        if (!f.exists()) f.mkdirs(); // Used for checking if 
     }
 
-    // ---------- Surveys ----------
+    // Surveys
     public void saveSurvey(Survey s, String fileName) throws IOException {
         if (s == null) throw new IOException("No survey to save.");
         writeObject(s, new File(SURVEY_DIR, ensureSer(fileName)));
@@ -41,7 +41,7 @@ public class FileManager {
         throw new IOException("File does not contain a Survey object.");
     }
 
-    // ---------- Tests ----------
+    // Tests
     public void saveTest(Test t, String fileName) throws IOException {
         if (t == null) throw new IOException("No test to save.");
         writeObject(t, new File(TEST_DIR, ensureSer(fileName)));
@@ -53,7 +53,7 @@ public class FileManager {
         throw new IOException("File does not contain a Test object.");
     }
 
-    // ---------- Responses ----------
+    // Responses
     public void saveResponse(Response r, String fileName) throws IOException {
         if (r == null) throw new IOException("No response to save.");
         writeObject(r, new File(RESPONSE_DIR, ensureSer(fileName)));
@@ -65,12 +65,14 @@ public class FileManager {
         throw new IOException("File does not contain a Response object.");
     }
 
-    // ---------- Listings ----------
+    // Listings
     public List<String> listSurveys() { return listFiles(SURVEY_DIR); }
     public List<String> listTests() { return listFiles(TEST_DIR); }
     public List<String> listResponses() { return listFiles(RESPONSE_DIR); }
 
-    // ---------- Helpers ----------
+
+
+    // Helpers
     private void writeObject(Object o, File file) throws IOException {
         try (FileOutputStream fos = new FileOutputStream(file);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {

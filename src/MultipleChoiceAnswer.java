@@ -23,7 +23,7 @@ public class MultipleChoiceAnswer extends Answer {
             sb.append((char) ('A' + i)).append(") ").append(choices.get(i));
             if (i < choices.size() - 1) sb.append("  ");
         }
-        System.out.println(sb.toString());
+        System.out.println(sb);
         System.out.println("Answer: " + getAnswerSummary());
     }
 

@@ -8,8 +8,8 @@ import java.util.Map;
 public class MatchingQuestion extends Question {
     private static final long serialVersionUID = 1L;
 
-    private List<String> leftColumn;
-    private List<String> rightColumn;
+    private final List<String> leftColumn;
+    private final List<String> rightColumn;
 
     public MatchingQuestion(String prompt, List<String> left, List<String> right) {
         super(prompt, (left == null) ? 0 : left.size());

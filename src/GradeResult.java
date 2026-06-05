@@ -7,11 +7,11 @@ import java.util.List;
 public class GradeResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String testName;
+    private final String testName;
     private int correctCount;
     private int gradedCount;
     private int totalQuestions;
-    private List<String> ungradedPrompts;
+    private final List<String> ungradedPrompts;
     private double percentScore;
 
     public GradeResult(String testName) {

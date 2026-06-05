@@ -1,3 +1,4 @@
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -6,10 +7,11 @@ import java.util.Map;
 // Answer for a Matching question. Stores the columns presented and the
 // left-to-right pairings the user chose.
 public class MatchingAnswer extends Answer {
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    private List<String> leftColumn;
-    private List<String> rightColumn;
+    private final List<String> leftColumn;
+    private final List<String> rightColumn;
     private Map<String, String> pairs;
 
     public MatchingAnswer(String questionPrompt, List<String> leftColumn,

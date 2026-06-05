@@ -8,7 +8,7 @@ import java.util.List;
 public class MultipleChoiceQuestion extends Question {
     private static final long serialVersionUID = 1L;
 
-    private List<String> choices;
+    private final List<String> choices;
 
     public MultipleChoiceQuestion(String prompt, List<String> choices, int numResponses) {
         super(prompt, numResponses);
@@ -24,7 +24,7 @@ public class MultipleChoiceQuestion extends Question {
             sb.append((char) ('A' + i)).append(") ").append(choices.get(i));
             if (i < choices.size() - 1) sb.append("  ");
         }
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 
     @Override
